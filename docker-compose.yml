@@ -1,0 +1,75 @@
+# add: volumes
+# add nodemon attraction for developer
+# add react attraction for developer, update in real time for docker
+# disable output expusure ports, and set them on nginx
+# set react built version
+
+version: "3.8"
+services:
+
+  react:
+    build:
+      context: ./server-side/react
+      dockerfile: Dockerfile.dev
+    image: w3arthur-demo-react:v1
+    container_name: w3arthur-demo-react
+    restart: unless-stopped
+    # volumes:
+    #   - ./serverside/react/sec: app
+    #   - 
+    ports:
+      - 3000:5173
+    networks:
+      - w3arthur-demo
+
+  nodejs1:
+    build:
+      context: ./server-side/nodejs1
+      dockerfile: Dockerfile
+    image: w3arthur-demo-nodejs1:v1
+    container_name: w3arthur-demo-nodejs1
+    restart: unless-stopped
+    # volumes:
+    #   - ./....: app
+    ports:
+      - 3444:3444
+    networks:
+      - w3arthur-demo
+
+  nodejs2:
+    build:
+      context: ./nodejs2
+      dockerfile: Dockerfile
+    image: w3arthur-demo-nodejs2:v1
+    container_name: w3arthur-demo-nodejs2
+    restart: unless-stopped
+    # volumes:
+    #   - ./....: app
+    ports:
+      - 3500:3500
+    networks:
+      - w3arthur-demo
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: w3arthur-demo-nginx:v1
+    container_name: w3arthur-demo-nginx
+    # image: nginx:alpine   *instead of build + image
+    restart: unless-stopped
+    volumes:
+      #- ./nginx/nginx-proxy.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx-demo.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/demo.html:/www/index.html
+    ports:
+      - 80:8080
+    depends_on:
+      - react
+      - nodejs2
+    networks:
+      - w3arthur-demo
+
+networks:
+  w3arthur-demo:
+    driver: bridge
