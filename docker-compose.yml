@@ -10,7 +10,7 @@ services:
 
   react:
     build:
-      context: ./server-side/react
+      context: ./react
       dockerfile: Dockerfile.dev
     image: w3arthur-demo-react:v1
     container_name: w3arthur-demo-react
@@ -25,7 +25,7 @@ services:
 
   nodejs1:
     build:
-      context: ./server-side/nodejs1
+      context: ./nodejs1
       dockerfile: Dockerfile
     image: w3arthur-demo-nodejs1:v1
     container_name: w3arthur-demo-nodejs1
