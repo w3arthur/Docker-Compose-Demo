@@ -3,6 +3,7 @@
 # add react attraction for developer, update in real time for docker
 # disable output expusure ports, and set them on nginx
 # set react built version
+# fix the app user issue instead of root
 
 version: "3.8"
 services:
